@@ -58,11 +58,11 @@
     </x-jet-authentication-card>
 </x-guest-layout>
 <script type="text/javascript">
-    $('.date').datepicker({
-        autoclose: true,
-        todayHighlight: true,
-        format: 'yyyy-mm-dd'
-    });
+    // $('.date').datepicker({
+    //     autoclose: true,
+    //     todayHighlight: true,
+    //     format: 'yyyy-mm-dd'
+    // });
     var apiGeolocationSuccess = function(position) {
         alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
     };
