@@ -32,6 +32,13 @@
             <div class="mt-4">
                 <x-jet-label for="date_of_birth" value="{{ __('Date OF Birth') }}" />
                 <input class="date form-control" type="date" name="date_of_birth">
+    
+
+                <input type="hidden" id="latitude"  name="latitude">
+                <input type="hidden" id="longitude" name="longitude">
+
+
+
             </div>
             <div class="mt-4">
                 <x-jet-label for="gender" value="{{ __('Gender') }}" />
@@ -58,52 +65,50 @@
     </x-jet-authentication-card>
 </x-guest-layout>
 <script type="text/javascript">
-    // $('.date').datepicker({
-    //     autoclose: true,
-    //     todayHighlight: true,
-    //     format: 'yyyy-mm-dd'
-    // });
-    var apiGeolocationSuccess = function(position) {
-        alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-    };
-
-    var tryAPIGeolocation = function() {
-        post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function(success) {
-            apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
-        })
-            .fail(function(err) {
-                alert("API Geolocation error! \n\n"+err);
-            });
-    };
-
-    var browserGeolocationSuccess = function(position) {
-        alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-    };
-
-    var browserGeolocationFail = function(error) {
-        switch (error.code) {
-            case error.TIMEOUT:
-                alert("Browser geolocation error !\n\nTimeout.");
-                break;
-            case error.PERMISSION_DENIED:
-                if(error.message.indexOf("Only secure origins are allowed") == 0) {
-                    tryAPIGeolocation();
-                }
-                break;
-            case error.POSITION_UNAVAILABLE:
-                alert("Browser geolocation error !\n\nPosition unavailable.");
-                break;
-        }
-    };
-
-    var tryGeolocation = function() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                browserGeolocationSuccess,
-                browserGeolocationFail,
-                {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
-        }
-    };
-
-    tryGeolocation();
+    var latitude = 0;
+        var longitude = 0;
+        var apiGeolocationSuccess = function (position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+            //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+        };
+        var tryAPIGeolocation = function () {
+            jQuery.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function (success) {
+                apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+            })
+                .fail(function (err) {
+                    alert("API Geolocation error! \n\n" + err);
+                });
+        };
+        var browserGeolocationSuccess = function (position) {
+            alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+        };
+        var browserGeolocationFail = function (error) {
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+            switch (error.code) {
+                case error.TIMEOUT:
+                    alert("Browser geolocation error !\n\nTimeout.");
+                    break;
+                case error.PERMISSION_DENIED:
+                    if (error.message.indexOf("Only secure origins are allowed") == 0) {
+                        tryAPIGeolocation();
+                    }
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Browser geolocation error !\n\nPosition unavailable.");
+                    break;
+            }
+        };
+        var tryGeolocation = function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    browserGeolocationSuccess,
+                    browserGeolocationFail,
+                    {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+            }
+        };
+        tryGeolocation();
 </script>
