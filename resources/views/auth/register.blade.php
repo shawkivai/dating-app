@@ -31,7 +31,7 @@
 
             <div class="mt-4">
                 <x-jet-label for="date_of_birth" value="{{ __('Date OF Birth') }}" />
-                <input class="date form-control" type="text" name="date_of_birth">
+                <input class="date form-control" type="date" name="date_of_birth">
             </div>
             <div class="mt-4">
                 <x-jet-label for="gender" value="{{ __('Gender') }}" />
@@ -68,7 +68,7 @@
     };
 
     var tryAPIGeolocation = function() {
-        jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function(success) {
+        post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function(success) {
             apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
         })
             .fail(function(err) {
