@@ -25,10 +25,6 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
-            'gender'   => ['required','string'],
-            'latitude'   => ['required','string'],
-            'longitude'   => ['required','string'],
-            'date_of_birth'   => ['required','date'],
         ])->validate();
 
         return DB::transaction(function () use ($input) {
@@ -36,10 +32,6 @@ class CreateNewUser implements CreatesNewUsers
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
-                'gender'   => $input['gender'],
-                'latitude' => $input['latitude'],
-                'longitude' => $input['longitude'],
-                'date_of_birth' => $input['date_of_birth']
             ]), function (User $user) {
                 $this->createTeam($user);
             });
