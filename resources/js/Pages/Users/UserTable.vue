@@ -14,17 +14,32 @@
                     <tr>
                     <th class="px-4 py-2">User Name</th>
                     <th class="px-4 py-2">Email</th>
+                    <th class="px-4 py-2">Profile Picture</th>
                     <th class="px-4 py-2">Gender</th>
-                    <th class="px-4 py-2">DOB</th>
+                    <th class="px-4 py-2"> Age </th>
+                    <th class="px-4 py-2"> Distance </th>
+                    <th class="px-4 py-2"> Actions </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="user in users">
                         <td class="border px-4 py-2"> {{user.name}}</td>
                         <td class="border px-4 py-2"> {{user.email}}</td>
-                        <td class="border px-4 py-2"> {{user.gender}}</td>
-                        <td class="border px-4 py-2"> {{user.date_of_birth}}</td>
+                        <td class="border px-4 py-2"> 
+                            <img :src="user.profile_pic" style="height:105px">
+
+                        </td>
+                        <td class="border px-4 py-2"> {{user.gender === 'm' ? 'Male' : 'Female'}}</td>
+                        <td class="border px-4 py-2"> {{user.age}}</td>
                         <td class="border px-4 py-2"> {{user.distance}}</td>
+                        <td class="border px-4 py-2">
+                            <jet-button @click.native="likeUser">
+                                Like
+                            </jet-button>
+                             <jet-danger-button @click.native="dislikeUser">
+                                Dislike
+                            </jet-danger-button>
+                        </td>
                     </tr>
                     
                 </tbody>
@@ -35,7 +50,8 @@
 
 <script>
     import JetApplicationLogo from './../../Jetstream/ApplicationLogo'
-
+    import JetButton from './../../Jetstream/Button'
+     import JetDangerButton from './../../Jetstream/DangerButton'
     export default {
         data()
         {
@@ -47,6 +63,8 @@
         },
         components: {
             JetApplicationLogo,
+            JetButton,
+            JetDangerButton
         },
         created()
         {
@@ -64,58 +82,14 @@
                     }
                 })
             },
-            // getUserRealtimeLocation()
-            // {
+            dislikeUser()
+            {
 
-            //     var apiGeolocationSuccess = function (position) {
-            //         latitude = position.coords.latitude;
-            //         longitude = position.coords.longitude;
-            //         document.getElementById('latitude').value = latitude;
-            //         document.getElementById('longitude').value = longitude;
-            //         //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-            //     };
-            //     var tryAPIGeolocation = function () {
-            //         post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function (success) {
-            //             apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
-            //         })
-            //             .fail(function (err) {
-            //                 alert("API Geolocation error! \n\n" + err);
-            //             });
-            //     };
-            //     var browserGeolocationSuccess = function (position) {
-            //         latitude = position.coords.latitude;
-            //         longitude = position.coords.longitude;
-            //         document.getElementById('latitude').value = latitude;
-            //         document.getElementById('longitude').value = longitude;
-            //         //alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
-            //     };
-            //     var browserGeolocationFail = function (error) {
-            //         document.getElementById('latitude').value = latitude;
-            //         document.getElementById('longitude').value = longitude;
-            //         switch (error.code) {
-            //             case error.TIMEOUT:
-            //                 alert("Browser geolocation error !\n\nTimeout.");
-            //                 break;
-            //             case error.PERMISSION_DENIED:
-            //                 if (error.message.indexOf("Only secure origins are allowed") == 0) {
-            //                     tryAPIGeolocation();
-            //                 }
-            //                 break;
-            //             case error.POSITION_UNAVAILABLE:
-            //                 alert("Browser geolocation error !\n\nPosition unavailable.");
-            //                 break;
-            //         }
-            //     };
-            //     var tryGeolocation = function () {
-            //         if (navigator.geolocation) {
-            //             navigator.geolocation.getCurrentPosition(
-            //                 browserGeolocationSuccess,
-            //                 browserGeolocationFail,
-            //                 {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
-            //         }
-            //     };
-            //     tryGeolocation();
-            // },
+            },
+            likeUser()
+            {
+
+            },
             getUserRealtimeLocation()
             {
                 if(navigator.geolocation) {
@@ -132,10 +106,10 @@
 
                     },
                     function (error) {
-                        // self.latitude = 23.801738560316018;
-                        // self.longitude = 90.3796451525854;
+                        self.latitude = 23.801738560316018;
+                        self.longitude = 90.3796451525854;
                             console.log(error.message);
-                            // self.getNearUsers();
+                            self.getNearUsers();
                         }, {
                             maximumAge: 50000, timeout: 20000, enableHighAccuracy: true
                         }

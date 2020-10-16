@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Users;
 
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,14 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // public function getNearbyUsers(Request $request)
-    // {
-    //     $latitude = $request->has('latitude') ? $request->query('latitude') : null;
-    //     $longitude = $request->has('longitude') ? $request->query('longitude') : null;
-        
-    //     return User::get();
-    // }
-
 
     public function getNearbyUsers (Request $request){
         if (Auth::check())
@@ -26,22 +19,27 @@ class UserController extends Controller
         }
         $latitude = $request->has('latitude') ? $request->query('latitude') : null;
         $longitude = $request->has('longitude') ? $request->query('longitude') : null;
-        $allUsers = User::select('id','name','latitude','longitude', 'email', 'date_of_birth', 'gender')->whereNotIn('id',[$loggedInUserId])->get();
-        
+        $allUsers = User::select('id','name','latitude','longitude', 'email', 'date_of_birth', 'gender', 'profile_photo_path')->whereNotIn('id',[$loggedInUserId])->get();
+        $today=Carbon::now();
         if($allUsers){
             $index = 0;
             foreach ($allUsers as $user){
-                 $distance = round($this->distance($latitude,$longitude,$user['latitude'],$user['longitude'],'kilometer'));
+                 $distance = $this->distance($latitude,$longitude,$user['latitude'],$user['longitude'],'kilometer');
                 //  if($distance <= 5) {
-                     $data[$index] = [
+                    $userDOB = Carbon::parse($user['date_of_birth']);
+                    
+                    $userAgeInYears = $userDOB->diffInYears($today);
+                    
+                    $data[$index] = [
                          'id' => $user['id'],
                          'name' => $user['name'],
                          'distance' => $user['distance'],
                          'date_of_birth' => $user['date_of_birth'],
                          'email'        => $user['email'],
                          'gender'       => $user['gender'],
-                         'distance' => $distance,
-
+                         'distance' => round($distance, 1),
+                         'age'      => $userAgeInYears,
+                         'profile_pic' => env('APP_URL').'/storage/'.$user['profile_photo_path']
                      ];
                 //  }
                  $index ++;

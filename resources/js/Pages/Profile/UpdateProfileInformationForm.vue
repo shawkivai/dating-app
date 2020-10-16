@@ -54,6 +54,24 @@
                 <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" />
                 <jet-input-error :message="form.error('email')" class="mt-2" />
             </div>
+
+            <div class="col-span-6 sm:col-span-4">
+                <jet-label for="date_of_birth" value="Date Of Birth" />
+                <jet-input id="email" type="date" class="mt-1 block w-full" name="date_of_birth" v-model="form.date_of_birth" />
+                <!-- <input class="date form-control" type="date" name="date_of_birth" wire:model.defer="state.date_of_birth"> -->
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+                <jet-label for="gender" value="Gender" />
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline1" name="gender" value="m" :checked="form.gender == 'm' ? true : false" class="custom-control-input" v-model="form.gender">
+                    <label class="custom-control-label" for="customRadioInline2">Male</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" id="customRadioInline2" name="gender" value="f" :checked="form.gender == 'f' ? true : false"  class="custom-control-input" v-model="form.gender">
+                    <label class="custom-control-label" for="customRadioInline2">Female</label>
+                </div>
+            </div>
+
         </template>
 
         <template #actions>
@@ -96,6 +114,8 @@
                     '_method': 'PUT',
                     name: this.user.name,
                     email: this.user.email,
+                    date_of_birth: this.user.date_of_birth,
+                    gender: this.user.gender,
                     photo: null,
                 }, {
                     bag: 'updateProfileInformation',
