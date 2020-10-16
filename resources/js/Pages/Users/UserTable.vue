@@ -128,7 +128,7 @@
                         self.longitude = position.coords.longitude;
                         console.log(position.coords.latitude)
                         console.log(position.coords.longitude);
-                        this.getNearUsers();
+                        self.getNearUsers();
 
                     },
                     function (error) {
