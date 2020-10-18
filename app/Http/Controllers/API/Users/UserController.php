@@ -26,7 +26,7 @@ class UserController extends Controller
             $index = 0;
             foreach ($allUsers as $user){
                  $distance = $this->distance($latitude,$longitude,$user['latitude'],$user['longitude'],'kilometer');
-                //  if($distance <= 5) {
+                 if($distance <= 5) {
                     $userDOB = Carbon::parse($user['date_of_birth']);
                     
                     $userAgeInYears = $userDOB->diffInYears($today);
@@ -42,7 +42,7 @@ class UserController extends Controller
                          'age'      => $userAgeInYears,
                          'profile_pic' => env('APP_URL').'/storage/'.$user['profile_photo_path']
                      ];
-                //  }
+                 }
                  $index ++;
             }
             return $data;
