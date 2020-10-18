@@ -25,3 +25,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 
 Route::get('/users/nearby', [UserController::class, 'getNearbyUsers'])
     ->name('api.user.nearbyusers');
+
+    Route::get('/loggedin/user', [UserController::class, 'getLoggedInUser'])
+    ->name('api.user.loggedin');
+   

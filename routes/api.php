@@ -21,7 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Route::middleware('auth:api')->group(function () {
 
-    Route::get('/users/nearby', [UserController::class, 'getNearbyUsers'])
-        ->name('api.user.nearbyusers');
+    Route::post('/user/{userId}/like', [UserController::class, 'likeUsers'])
+        ->name('api.user.like');
+
+    Route::post('/user/{userId}/dislike', [UserController::class, 'dislikeUsers'])
+        ->name('api.user.dislike');
 // });
 

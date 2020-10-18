@@ -13,7 +13,7 @@ class CreateUserBehaviourTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_behaviour', function (Blueprint $table) {
+        Schema::create('user_behaviours', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->index();
             $table->unsignedBigInteger('like_dislike_user_id');
@@ -31,6 +31,6 @@ class CreateUserBehaviourTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_behaviour');
+        Schema::dropIfExists('user_behaviours');
     }
 }

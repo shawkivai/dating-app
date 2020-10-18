@@ -33,10 +33,10 @@
                         <td class="border px-4 py-2"> {{user.age}}</td>
                         <td class="border px-4 py-2"> {{user.distance}}</td>
                         <td class="border px-4 py-2">
-                            <jet-button @click.native="likeUser">
+                            <jet-button @click.native="likeUser(user.id)">
                                 Like
                             </jet-button>
-                             <jet-danger-button @click.native="dislikeUser">
+                             <jet-danger-button @click.native="dislikeUser(user.id)">
                                 Dislike
                             </jet-danger-button>
                         </td>
@@ -52,6 +52,7 @@
     import JetApplicationLogo from './../../Jetstream/ApplicationLogo'
     import JetButton from './../../Jetstream/Button'
      import JetDangerButton from './../../Jetstream/DangerButton'
+     import Swal from 'sweetalert2';
     export default {
         data()
         {
@@ -59,17 +60,20 @@
                 latitude: undefined,
                 longitude: undefined,
                 users: [],
+                looggedInUserId: undefined,
             }
         },
         components: {
             JetApplicationLogo,
             JetButton,
-            JetDangerButton
+            JetDangerButton,
+            Swal,
         },
         created()
         {
             
             this.getUserRealtimeLocation();
+            this.getLoggedInUser();
         },
 
         methods:{
@@ -82,12 +86,83 @@
                     }
                 })
             },
-            dislikeUser()
+            getLoggedInUser()
             {
-
+                const url = `/loggedin/user`
+                axios.get(url).then(response => {
+                    if (response.data) {
+                        this.looggedInUserId = response.data.id;
+                    }
+                })
             },
-            likeUser()
+            dislikeUser(dislikeLikeUserId)
             {
+                const url = `/api/user/${this.looggedInUserId}/dislike`
+                const payload = {
+                    user_id: this.looggedInUserId,
+                    disliked_user_id: dislikeLikeUserId,
+                    is_disliked: 1,
+                    is_liked: 0,
+                }
+                axios.post(url, payload).then((response) => {
+                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    background: 'rgb(240,240,240)'
+                });
+
+                Toast.fire({
+                    type: response.data == 'success' ? 'success' : 'error',
+                    title:  response.data.message
+                });
+
+                })
+            },
+            likeUser(likedUserId)
+            {
+                const url = `/api/user/${this.looggedInUserId}/like`
+                const payload = {
+                    user_id: this.looggedInUserId,
+                    liked_user_id: likedUserId,
+                    is_liked: 1,
+                    is_disliked: 0,
+                }
+
+                axios.post(url, payload).then((response) => {
+
+                
+
+                if(response.data.status === 'nutual_like') {
+                        return Swal.fire({
+                            title: '<strong>Congratulations</strong>',
+                            icon: 'info',
+                            html:
+                                '<b>'+response.data.message+'</b>',
+                            showCloseButton: true,
+                            showCancelButton: true,
+                            focusConfirm: false,
+                            confirmButtonText:
+                                '<i class="fa fa-thumbs-up"></i> Great!',
+                            confirmButtonAriaLabel: 'Thumbs up, great!',
+                            
+                            })
+                } else {
+                                    const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    background: 'rgb(240,240,240)'
+                });
+                return Toast.fire({
+                            type:   response.data == 'success' ? 'success' : 'error',
+                            title:  response.data.message
+                        });
+                }
+
+                })
 
             },
             getUserRealtimeLocation()
