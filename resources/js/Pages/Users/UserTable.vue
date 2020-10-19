@@ -30,7 +30,7 @@
                             <img v-if="user.profile_pic" :src="user.profile_pic" style="height:105px">
                             <h3 v-else> No Profile Picture found</h3>
                         </td>
-                        <td class="border px-4 py-2"> {{user.gender === 'm' ? 'Male' : 'Female'}}</td>
+                        <td class="border px-4 py-2"> {{user.gender | unEnumify}}</td>
                         <td class="border px-4 py-2"> {{user.age}}</td>
                         <td class="border px-4 py-2"> {{user.distance}}</td>
                         <td class="border px-4 py-2">
