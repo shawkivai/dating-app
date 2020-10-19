@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
             $table->date('date_of_birth');
-            $table->string('gender');
+            $table->enum('gender', ['male', 'female']);
             $table->string('latitude');
             $table->string('longitude');
             $table->timestamps();

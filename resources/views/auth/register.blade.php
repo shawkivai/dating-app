@@ -1,7 +1,12 @@
 <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
-            <x-jet-authentication-card-logo />
+         <div class="row">
+        
+            <!-- <x-jet-authentication-card-logo /> -->
+            <h1> Dating Application</h1>
+         </div>
+            
         </x-slot>
         <x-jet-validation-errors class="mb-4" />
         <form method="POST" action="{{ route('register') }}">
@@ -31,11 +36,11 @@
             <div class="mt-4">
                 <x-jet-label for="gender" value="{{ __('Gender') }}" />
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline1" name="gender" value="m" class="custom-control-input">
+                    <input type="radio" id="customRadioInline1" name="gender" value="male" class="custom-control-input">
                     <label class="custom-control-label" for="customRadioInline1">Male</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline2" name="gender" value="f" class="custom-control-input">
+                    <input type="radio" id="customRadioInline2" name="gender" value="female" class="custom-control-input">
                     <label class="custom-control-label" for="customRadioInline2">Female</label>
                 </div>
             </div>
@@ -61,12 +66,12 @@
             //alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
         };
         var tryAPIGeolocation = function () {
-            post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function (success) {
-                apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
-            })
-                .fail(function (err) {
-                    alert("API Geolocation error! \n\n" + err);
-                });
+            // post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function (success) {
+            //     apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+            // })
+            //     .fail(function (err) {
+            //         alert("API Geolocation error! \n\n" + err);
+            //     });
         };
         var browserGeolocationSuccess = function (position) {
             latitude = position.coords.latitude;

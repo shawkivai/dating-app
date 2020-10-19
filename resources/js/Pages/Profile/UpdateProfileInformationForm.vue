@@ -63,11 +63,11 @@
             <div class="col-span-6 sm:col-span-4">
                 <jet-label for="gender" value="Gender" />
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline1" name="gender" value="m" :checked="form.gender == 'm' ? true : false" class="custom-control-input" v-model="form.gender">
+                    <input type="radio" id="customRadioInline1" name="gender" value="male" :checked="form.gender == 'm' ? true : false" class="custom-control-input" v-model="form.gender">
                     <label class="custom-control-label" for="customRadioInline2">Male</label>
                 </div>
                 <div class="custom-control custom-radio custom-control-inline">
-                    <input type="radio" id="customRadioInline2" name="gender" value="f" :checked="form.gender == 'f' ? true : false"  class="custom-control-input" v-model="form.gender">
+                    <input type="radio" id="customRadioInline2" name="gender" value="female" :checked="form.gender == 'f' ? true : false"  class="custom-control-input" v-model="form.gender">
                     <label class="custom-control-label" for="customRadioInline2">Female</label>
                 </div>
             </div>

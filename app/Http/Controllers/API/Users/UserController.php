@@ -24,9 +24,10 @@ class UserController extends Controller
         $today=Carbon::now();
         if($allUsers){
             $index = 0;
-            foreach ($allUsers as $user){
-                 $distance = $this->distance($latitude,$longitude,$user['latitude'],$user['longitude'],'kilometer');
-                 if($distance <= 5) {
+            $data = [];
+            foreach ($allUsers as $user) {
+                $distance = $this->distance($latitude,$longitude,$user['latitude'],$user['longitude'],'kilometer');
+                if ($distance <= 5) {
                     $userDOB = Carbon::parse($user['date_of_birth']);
                     
                     $userAgeInYears = $userDOB->diffInYears($today);
@@ -40,15 +41,16 @@ class UserController extends Controller
                          'gender'       => $user['gender'],
                          'distance' => round($distance, 1),
                          'age'      => $userAgeInYears,
-                         'profile_pic' => env('APP_URL').'/storage/'.$user['profile_photo_path']
+                         'profile_pic' => $user['profile_photo_path'] ? env('APP_URL').'/storage/'.$user['profile_photo_path'] : null,
                      ];
-                 }
+                }
                  $index ++;
             }
             return $data;
         }
     }
-    protected function distance($lat1, $lon1, $lat2, $lon2, $unit) {
+    protected function distance($lat1, $lon1, $lat2, $lon2, $unit)
+    {
         $theta = $lon1 - $lon2;
         $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
         $dist = acos($dist);

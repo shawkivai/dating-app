@@ -2,32 +2,33 @@
     <div>
         <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
             <div>
-                <jet-application-logo class="block h-12 w-auto" />
+                <h1><b> Users Around 5 Kilometer</b></h1>
             </div>
-
-           
         </div>
 
         <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-            <table class="table-auto">
+             <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+
+            <table class="min-w-full leading-normal">
                 <thead>
                     <tr>
-                    <th class="px-4 py-2">User Name</th>
-                    <th class="px-4 py-2">Email</th>
-                    <th class="px-4 py-2">Profile Picture</th>
-                    <th class="px-4 py-2">Gender</th>
-                    <th class="px-4 py-2"> Age </th>
-                    <th class="px-4 py-2"> Distance </th>
-                    <th class="px-4 py-2"> Actions </th>
+                    <th   class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">User Name</th>
+                    <th   class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+                    <th   class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Profile Picture</th>
+                    <th   class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Gender</th>
+                    <th   class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Age </th>
+                    <th   class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Distance </th>
+                    <th   class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"> Actions </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="user in users">
+                    <tr v-for="user in users" :key="user.id">
                         <td class="border px-4 py-2"> {{user.name}}</td>
                         <td class="border px-4 py-2"> {{user.email}}</td>
                         <td class="border px-4 py-2"> 
-                            <img :src="user.profile_pic" style="height:105px">
-
+                            <img v-if="user.profile_pic" :src="user.profile_pic" style="height:105px">
+                            <h3 v-else> No Profile Picture found</h3>
                         </td>
                         <td class="border px-4 py-2"> {{user.gender === 'm' ? 'Male' : 'Female'}}</td>
                         <td class="border px-4 py-2"> {{user.age}}</td>
@@ -41,9 +42,15 @@
                             </jet-danger-button>
                         </td>
                     </tr>
+
+                    <tr v-if="users ? !users.length : false">
+                        <td colspan="7" class="text-center"><b> No Users Found </b></td>
+                    </tr>
                     
                 </tbody>
             </table>
+            </div>
+            </div>
         </div>
     </div>
 </template>
